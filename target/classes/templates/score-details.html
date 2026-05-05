@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Score Details - Campus Events</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <a th:href="@{/dashboard}" class="navbar-brand">Campus Events</a>
+        <div class="nav-links">
+            <a th:href="@{/dashboard}">Home</a>
+            <a th:href="@{/helpdesk}">Help Desk</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="page-header" style="text-align: center; justify-content: center;">
+            <div style="background: linear-gradient(135deg, var(--surface), #1e293b); padding: 4rem; border-radius: 1rem; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 100%; max-width: 800px;">
+                <h1 style="margin-bottom: 1rem;">Level Up! <span style="font-size: 3rem;">🌟</span></h1>
+                <p class="text-muted" style="margin-bottom: 3rem;">You earn <strong>10+ credits</strong> every time you attend an event!</p>
+                
+                <h2 style="font-size: 5rem; color: var(--primary); margin-bottom: 0;">
+                    <span th:text="${totalCredit}">0</span>
+                </h2>
+                <p style="text-transform: uppercase; font-weight: bold; letter-spacing: 4px; color: var(--text-muted);">Total Credits Earned</p>
+                
+                <hr style="border: none; border-top: 1px solid var(--border); margin: 3rem 0;">
+                
+                <h3 style="text-align: left; margin-bottom: 1.5rem; color: var(--text);">Activity History</h3>
+                <div style="text-align: left; max-height: 300px; overflow-y: auto;">
+                    <div th:each="reg : ${registrations}" style="background-color: var(--background); padding: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; display: flex; justify-content: space-between; border-left: 4px solid var(--primary);">
+                        <div>
+                            <strong th:text="${reg.event.title}">Event Name</strong>
+                            <p class="text-muted" style="font-size: 0.8rem; margin-top: 0.25rem;" th:text="${#temporals.format(reg.registrationDate, 'yyyy-MM-dd HH:mm')}">Date</p>
+                        </div>
+                        <span style="color: var(--primary); font-weight: bold; font-family: monospace; font-size: 1.2rem;">+10</span>
+                    </div>
+                    <div th:if="${registrations.empty}" class="text-muted">
+                        No events attended yet! Go register for one!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

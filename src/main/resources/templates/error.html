@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error - Campus Events</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <div class="card p-5 shadow">
+            <h1 class="text-danger mb-4">Something went wrong!</h1>
+            <p class="lead" th:text="${errorMessage}">Default error message</p>
+            <a href="/dashboard" class="btn btn-primary mt-3">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

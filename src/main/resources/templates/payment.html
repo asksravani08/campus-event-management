@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Gateway - Campus Events</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid var(--border); padding-bottom: 1rem; }
+        .tab { padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; color: var(--text-muted); font-weight: 500; }
+        .tab.active { background-color: var(--primary); color: #0f172a; }
+        .payment-box { display: none; background: var(--surface); padding: 2rem; border-radius: 0.5rem; border: 1px solid var(--border); }
+        .payment-box.active { display: block; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a th:href="@{/dashboard}" class="navbar-brand">Campus Events</a>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card" style="max-width: 600px; padding: 3rem;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="color: var(--primary); margin-bottom: 0.5rem;">Secure Checkout</h2>
+                <p class="text-muted">Total Amount Due: <strong th:text="${'$' + event.price}" style="font-size: 1.5rem; color: var(--text);"></strong></p>
+                <p class="text-muted" style="font-size: 0.8rem;">(This is a simulated gateway)</p>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('credit')">💳 Credit / Debit Card</div>
+                <div class="tab" onclick="switchTab('upi')">📱 UPI Payment</div>
+                <div class="tab" onclick="switchTab('netbanking')">🏦 Net Banking</div>
+            </div>
+
+            <form th:action="@{/process-payment}" method="post">
+                <input type="hidden" name="eventId" th:value="${event.id}">
+                
+                <div id="credit" class="payment-box active">
+                    <div class="form-group">
+                        <label>Card Number</label>
+                        <input type="text" class="form-control" placeholder="1234 5678 9101 1121" minlength="16" maxlength="16">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group"><label>Expiry (MM/YY)</label><input type="text" class="form-control" placeholder="12/26"></div>
+                        <div class="form-group"><label>CVV Number</label><input type="password" class="form-control" placeholder="123" maxlength="3"></div>
+                    </div>
+                </div>
+                
+                <div id="upi" class="payment-box">
+                    <div class="form-group">
+                        <label>Enter Virtual Payment Address (UPI ID)</label>
+                        <input type="text" class="form-control" placeholder="username@upi">
+                    </div>
+                    <p class="text-muted" style="font-size: 0.85rem; text-align: center; margin-top: 1rem;">Open your UPI app and authorize the payment request.</p>
+                </div>
+                
+                <div id="netbanking" class="payment-box">
+                    <div class="form-group">
+                        <label>Select Bank</label>
+                        <select class="form-control" style="background-color: var(--background); color: var(--text);">
+                            <option>HDFC Bank</option>
+                            <option>ICICI Bank</option>
+                            <option>State Bank of India</option>
+                            <option>Axis Bank</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" style="margin-top: 2rem; font-size: 1.1rem; padding: 1rem;">Process Payment Securely</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.payment-box').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard - Campus Events</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <a th:href="@{/dashboard}" class="navbar-brand">Campus Events</a>
+        <div class="nav-links">
+            <a th:href="@{/dashboard}">Home</a>
+            <a th:href="@{/events}">Browse Events</a>
+            <a th:href="@{/my-events}">My Registrations</a>
+            <a th:href="@{/helpdesk}">Help Desk</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div th:if="${successMessage}" class="flash-message" th:text="${successMessage}"></div>
+    
+        <div class="page-header" style="align-items: flex-start;">
+            <div>
+                <h1>Welcome, <span sec:authentication="name"></span>!</h1>
+                <p class="text-muted">Here are some upcoming events on campus.</p>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, var(--primary-dark), var(--primary)); padding: 1.5rem 2rem; border-radius: 1rem; color: #0f172a; text-align: center; box-shadow: 0 10px 20px rgba(74, 222, 128, 0.2);">
+                <p style="text-transform: uppercase; font-size: 0.8rem; font-weight: bold; letter-spacing: 1px; margin-bottom: 0.5rem; opacity: 0.8;">Event Score</p>
+                <h2 style="font-size: 2.5rem; font-weight: 700;">★ Points</h2>
+                <a th:href="@{/score-details}" style="display: inline-block; margin-top: 0.5rem; background-color: rgba(0,0,0,0.2); color: #0f172a; padding: 0.25rem 1rem; border-radius: 1rem; text-decoration: none; font-size: 0.8rem; font-weight: 600;">Check Score</a>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+            <!-- Upcoming Events Column -->
+            <div>
+                <h3 style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">Trending Events</h3>
+                <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+                    <div class="card" th:each="event, stat : ${events}" th:if="${stat.index < 4}">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                            <span class="badge" th:text="${event.type}">Seminar</span>
+                            <span th:if="${event.price == 0.0}" class="badge" style="background-color: transparent; border: 1px solid var(--primary); color: var(--primary);">FREE</span>
+                        </div>
+                        <h3 class="card-title" th:text="${event.title}">Tech Conference</h3>
+                        <p class="card-text" th:text="${event.department}">Computer Science</p>
+                        
+                        <!-- Capacity visual UI -->
+                        <div style="margin-top: 1rem; margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
+                                <span class="text-muted">Seats filled</span>
+                                <span th:if="${event.maxCapacity != null}" th:text="${event.currentRegistrations + ' / ' + event.maxCapacity}" class="text-muted">0/100</span>
+                            </div>
+                            <div th:if="${event.maxCapacity != null}" style="width: 100%; height: 6px; background-color: var(--border); border-radius: 3px; overflow: hidden;">
+                                <div style="height: 100%; background-color: var(--primary);" th:styleappend="${'width: ' + ((event.currentRegistrations * 100) / event.maxCapacity) + '%;'}"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <a th:href="@{/events(keyword=${event.title})}" class="btn btn-primary" style="width: auto; padding: 0.5rem 1rem;">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Explore More Column -->
+            <div>
+                <h3 style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">Quick Actions</h3>
+                <div class="card" style="margin-bottom: 1rem;">
+                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Check Score Details</h4>
+                    <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">View your credit transaction history and total earned points from attending events.</p>
+                    <a th:href="@{/score-details}" class="btn" style="background-color: var(--surface); color: var(--text); border: 1px solid var(--border);">Open Score Card</a>
+                </div>
+                
+                <div class="card">
+                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Help Desk</h4>
+                    <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">Need to request a refund or have an issue? Submit a ticket to administration.</p>
+                    <a th:href="@{/helpdesk}" class="btn" style="background-color: var(--surface); color: var(--text); border: 1px solid var(--border);">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

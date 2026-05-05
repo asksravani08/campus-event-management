@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Campus Events</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2>Campus Event Manager</h2>
+            
+            <div th:if="${param.error}" class="flash-message" style="background-color: rgba(239, 68, 68, 0.1); color: var(--danger); border-color: var(--danger);">
+                Invalid email or password.
+            </div>
+            <div th:if="${param.logout}" class="flash-message">
+                You have been logged out.
+            </div>
+            <div th:if="${param.registered}" class="flash-message">
+                Registration successful! Please log in.
+            </div>
+
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label for="username">Email address</label>
+                    <input type="email" id="username" name="username" class="form-control" required autofocus>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Sign In</button>
+            </form>
+            
+            <div class="text-center mt-3" style="margin-top: 1.5rem;">
+                <p class="text-muted">Don't have an account? <a th:href="@{/register}" style="color: var(--primary);">Register here</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

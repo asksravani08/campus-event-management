@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Access Inbox - Campus Events</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .inbox { background: white; color: #333; padding: 2rem; border-radius: 0.5rem; max-width: 600px; margin: 2rem auto; font-family: sans-serif; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .inbox-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f0f0f0; padding-bottom: 1rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a th:href="@{/dashboard}" class="navbar-brand">Campus Events</a>
+        <div class="nav-links">
+            <a th:href="@{/my-events}" class="btn" style="background-color: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 0.5rem 1rem; width: auto;">Back to My Events</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <p class="text-muted" style="font-size: 0.9rem;"><i>(Simulated Email Inbox Displaying Free Event Details)</i></p>
+        </div>
+        
+        <div class="inbox">
+            <div class="inbox-header">
+                <h2 style="color: #222;">New Message</h2>
+                <span style="color: #888; font-size: 0.9rem;">System Automailer</span>
+            </div>
+            <p style="margin-bottom: 0.5rem;"><strong>To:</strong> <span th:text="${registration.user.name}"></span> &lt;<span th:text="${registration.user.email}"></span>&gt;</p>
+            <p style="margin-bottom: 0.5rem;"><strong>Subject:</strong> Access Details for <span th:text="${registration.event.title}"></span></p>
+            
+            <hr style="border:0; border-top:1px solid #eee; margin:1.5rem 0;">
+            
+            <p style="margin-bottom: 1rem;">Hello <span th:text="${registration.user.name}"></span>,</p>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">Since this is a free/sponsored event, you do not need a strict QR ticket. Please save the participation password below. You will be prompted to present this secure code upon entry to the venue.</p>
+            
+            <div style="background-color: #f8fafc; color: #0f172a; padding: 1.5rem; border-left: 4px solid var(--primary); font-size: 2rem; font-family: monospace; font-weight: bold; letter-spacing: 4px; text-align: center; margin: 2rem 0; border-radius: 0 0.5rem 0.5rem 0;">
+                <span th:text="${registration.eventPassword}">ABC-1234</span>
+            </div>
+
+            <p style="margin-bottom: 0.5rem;"><strong>Event Date:</strong> <span th:text="${registration.event.date}"></span></p>
+            <p style="margin-bottom: 0.5rem;"><strong>Department:</strong> <span th:text="${registration.event.department}"></span></p>
+            
+            <p style="margin-top: 2rem; color: #555;">Best regards,<br>The Administration Team</p>
+        </div>
+    </div>
+</body>
+</html>

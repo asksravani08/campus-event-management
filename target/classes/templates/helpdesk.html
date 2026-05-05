@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Help Desk - Campus Events</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <a th:href="@{/dashboard}" class="navbar-brand">Campus Events</a>
+        <div class="nav-links">
+            <a th:href="@{/dashboard}">Home</a>
+            <a th:href="@{/events}">Browse Events</a>
+            <a th:href="@{/my-events}">My Registrations</a>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card" style="max-width: 600px;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="color: var(--primary);">Contact Support Desk</h2>
+                <p class="text-muted">Submit an inquiry, refund request, or complaint directly to the Administrators.</p>
+            </div>
+            
+            <div th:if="${successMessage}" class="flash-message" th:text="${successMessage}"></div>
+
+            <form th:action="@{/support}" method="post">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" th:value="${user.name}" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" th:value="${user.email}" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label>Message / Complaint</label>
+                    <textarea name="message" class="form-control" rows="6" placeholder="Please describe your issue in detail..." required style="resize: vertical;"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">Submit Secure Message</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
